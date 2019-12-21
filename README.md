@@ -1,3 +1,3 @@
 # NetworkHelper
 
-A description of this package.
+This is a URLSession wrapper class that enables making network requests. 
