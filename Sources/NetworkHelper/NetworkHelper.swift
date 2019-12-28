@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CacheKey {
+private struct CacheKey {
   static let lastModifiedDate = "Last Modified Cached Date"
 }
 
