@@ -47,11 +47,12 @@ public class NetworkHelper {
   }
   
   /**
-   Perform the Network request for a givne URLRequest
-   - Paramter:
-      - request: The URLRequest to perform
-      - maxCacheDays: an optional Int value to indicate maximum number of days to use the cached response
-      - completion: a Result type of a Data object in the case of a successful request or an AppError in the case of a failure
+   Perform the Network request for a givne URLRequest.
+
+   - Parameters:
+      - request: The URLRequest to perform.
+      - maxCacheDays: An optional Int value to indicate maximum number of days to keep using the cached response.
+      - completion: The Result will contain a Data object in the case of a successful request or an AppError in the case of a failure.
   */
   public func performDataTask(with request: URLRequest,
                               maxCacheDays: Int = 1,
