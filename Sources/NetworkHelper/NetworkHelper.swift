@@ -7,6 +7,10 @@
 
 import Foundation
 
+struct CacheKey {
+  static let lastModifiedDate = "Last Modified Cached Date"
+}
+
 public class NetworkHelper {
   // we will create a shared instance of the NetworkHelper
   public static let shared = NetworkHelper()
@@ -21,7 +25,8 @@ public class NetworkHelper {
   }
   
   public func performDataTask(with request: URLRequest,
-                       completion: @escaping (Result<Data, AppError>) -> ()) {
+                              maxCacheDays: Int = 1,
+                              completion: @escaping (Result<Data, AppError>) -> ()) {
     
     
     // https://developer.apple.com/documentation/foundation/nsurlrequest/cachepolicy
@@ -43,6 +48,17 @@ public class NetworkHelper {
     // Apple - Accessing cached data
     // https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data
     
+    
+    // TODO: check if cache should be cleared base on x days since last modified date of saved cache
+    // retrieve cache date
+    if let lastModifiedDate = UserDefaults.standard.object(forKey: CacheKey.lastModifiedDate) as? Double {
+      //
+      print("last modified cache date: \(Date(timeIntervalSince1970: lastModifiedDate))")
+      
+  
+      // TODO: if expired, clear cache (e.g max cache days is 3, difference in toay and lastModifiedDate is > 3 days
+      //urlSession.configuration.urlCache?.removeAllCachedResponses()
+    }
     
     
     if let cachedResponse = urlSession.configuration.urlCache?.cachedResponse(for: request),
@@ -98,6 +114,10 @@ public class NetworkHelper {
         completion(.failure(.badStatusCode(urlResponse.statusCode)))
         return
       }
+      
+      // TODO: save last modified cache date
+      let cachedDate = Date().timeIntervalSince1970
+      UserDefaults.standard.set(cachedDate, forKey: CacheKey.lastModifiedDate)
       
       // 5. capture data as success case
       completion(.success(data))
