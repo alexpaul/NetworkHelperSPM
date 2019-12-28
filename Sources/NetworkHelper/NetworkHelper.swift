@@ -24,57 +24,51 @@ public class NetworkHelper {
     urlSession = URLSession(configuration: .default)
   }
   
+  private func verifyCacheDate(for lastModifiedTimeInterval: TimeInterval,
+                               maxCacheDays: Int) {
+    // create two Date objects from TimeIntervals
+    let lastModifiedDate = Date(timeIntervalSince1970: lastModifiedTimeInterval)
+    let todaysDate = Date(timeIntervalSince1970: Date().timeIntervalSince1970)
+    
+    // get an an instance of the user's current calendar
+    let calendar = Calendar.current
+    
+    // get the difference between two Date objects
+    // here we are only interested in the difference in days
+    let components = calendar.dateComponents([.day], from: lastModifiedDate, to: todaysDate)
+    
+    // extract the day value from the DateComponent
+    let differenceInDates = components.day ?? 0
+    
+    // clear the urlCache if the maxCacheDays has expired
+    if differenceInDates > maxCacheDays {
+      urlSession.configuration.urlCache?.removeAllCachedResponses()
+    }
+  }
+  
+  /**
+   Perform the Network request for a givne URLRequest
+   - Paramter:
+      - request: The URLRequest to perform
+      - maxCacheDays: an optional Int value to indicate maximum number of days to use the cached response
+      - completion: a Result type of a Data object in the case of a successful request or an AppError in the case of a failure
+  */
   public func performDataTask(with request: URLRequest,
                               maxCacheDays: Int = 1,
                               completion: @escaping (Result<Data, AppError>) -> ()) {
-    
-    
-    // https://developer.apple.com/documentation/foundation/nsurlrequest/cachepolicy
-    switch request.cachePolicy {
-    case .useProtocolCachePolicy:
-      print("useProtocolCachePolicy")
-    default:
-      print("other policy")
-    }
-    
-    // clear cache base on given criteria e.g number of days since last fetch
-    
-    // How to leverage HTTP cache in iOS
-    // https://www.fabernovel.com/en/engineering/how-to-leverage-http-cache-in-ios
-    
-    // NSHipster - NSURLCache
-    // https://nshipster.com/nsurlcache/
-    
-    // Apple - Accessing cached data
-    // https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data
-    
-    
-    // TODO: check if cache should be cleared base on x days since last modified date of saved cache
+    // check if cache should be cleared base on x days since last modified date of saved cache
     // retrieve cache date
-    if let lastModifiedDate = UserDefaults.standard.object(forKey: CacheKey.lastModifiedDate) as? Double {
+    if let lastModifiedTimeInterval = UserDefaults.standard.object(forKey: CacheKey.lastModifiedDate) as? TimeInterval {
       //
-      print("last modified cache date: \(Date(timeIntervalSince1970: lastModifiedDate))")
+      print("last modified cache date: \(Date(timeIntervalSince1970: lastModifiedTimeInterval))")
       
-  
-      // TODO: if expired, clear cache (e.g max cache days is 3, difference in toay and lastModifiedDate is > 3 days
-      //urlSession.configuration.urlCache?.removeAllCachedResponses()
+      // if expired, clear cache (e.g max cache days is 3, difference in toay and lastModifiedDate is > 3 days
+      verifyCacheDate(for: lastModifiedTimeInterval, maxCacheDays: maxCacheDays)
     }
-    
     
     if let cachedResponse = urlSession.configuration.urlCache?.cachedResponse(for: request),
-      let httpURLResponse = cachedResponse.response as? HTTPURLResponse {
-     // let userInfo = cachedResponse.userInfo {
-      
+      let _ = cachedResponse.response as? HTTPURLResponse {
       let data = cachedResponse.data
-        
-      print("userInfo \(cachedResponse.userInfo)")
-      
-      print("httpURLResponse: \(httpURLResponse)")
-      
-      let currentDate = Date()
-      let cacheDateHeader = currentDate.timeIntervalSince1970
-      print("cacheDateHeader \(cacheDateHeader)")
-      
       completion(.success(data))
       return
     }
@@ -85,7 +79,7 @@ public class NetworkHelper {
     // you don't explicitly resume() request
     
     let dataTask = urlSession.dataTask(with: request) { (data, response, error) in
-            
+      
       // 1. deal with error if any
       // check for client network errors
       if let error = error {
