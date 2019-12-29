@@ -7,7 +7,7 @@ This Swift package is a URLSession wrapper class that enables making network req
 
 ## Requirements 
 
-* Xcode 10+ 
+* Xcode 10.2+ 
 * Swift 5.0+ 
 
 ## Installation 
