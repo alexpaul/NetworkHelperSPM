@@ -21,13 +21,13 @@ import NetworkHelper
 
 struct APIClient {
   static func fetchData() {
-    let urlString = "https://api.com"
+    let urlString = "https://api.webapi.com/endpoint"
     guard let url = URL(string: urlString) else {
       // bad url 
       return 
     }
     let request = URLRequest(url: url) 
-    NetworkHelper.performDataTask(request: request) { result in 
+    NetworkHelper.shared.performDataTask(with: request) { result in 
       switch result {
         case .failure(let appError): 
           // handle error
