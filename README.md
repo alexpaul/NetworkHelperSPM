@@ -50,3 +50,8 @@ struct APIClient {
   }
 }
 ```
+
+## Licence 
+
+NetworkHelper is released under the MIT license. See [LICENSE]() for details.
+
