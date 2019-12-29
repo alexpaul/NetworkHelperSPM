@@ -53,7 +53,7 @@ struct APIClient {
 
 ## Caching 
 
-NetworkHelperSPM caches response for a day as the default. This value can be overridden to be 0 or a value that is sufficient to your needs. 
+NetworkHelperSPM caches the network response for a day as the default. This value can be overridden to be 0 or a value that is sufficient to your needs. 
 
 #### Caching example 
 
