@@ -51,6 +51,19 @@ struct APIClient {
 }
 ```
 
+## Caching 
+
+NetworkHelperSPM caches response for a day as the default. This value can be overridden to be 0 or a value that is sufficient to your needs. 
+
+#### Caching example 
+
+```swift 
+NetworkHelper.shared.performDataTask(with: request,
+                                     maxCacheDays: 3) { (result) in
+  // code here
+}
+```
+
 ## License
 
 NetworkHelper is released under the MIT license. See [LICENSE](https://github.com/alexpaul/NetworkHelperSPM/blob/master/LICENSE) for details.
