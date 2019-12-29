@@ -10,9 +10,7 @@ This Swift package is a URLSession wrapper class that enables making network req
 * Xcode 10.2+ 
 * Swift 5.0+ 
 
-## Installation 
-
-Currently NetworkHelperSPM only has support for Swift package manager. 
+## Swift Package Installation 
 
 To install copy this github url
 ```https://github.com/alexpaul/NetworkHelperSPM```  
