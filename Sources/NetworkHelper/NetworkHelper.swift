@@ -60,9 +60,6 @@ public class NetworkHelper {
     // check if cache should be cleared base on x days since last modified date of saved cache
     // retrieve cache date
     if let lastModifiedTimeInterval = UserDefaults.standard.object(forKey: CacheKey.lastModifiedDate) as? TimeInterval {
-      //
-      print("last modified cache date: \(Date(timeIntervalSince1970: lastModifiedTimeInterval))")
-      
       // if expired, clear cache (e.g max cache days is 3, difference in toay and lastModifiedDate is > 3 days
       verifyCacheDate(for: lastModifiedTimeInterval, maxCacheDays: maxCacheDays)
     }
