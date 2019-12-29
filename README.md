@@ -51,7 +51,7 @@ struct APIClient {
 }
 ```
 
-## Licence 
+## License
 
-NetworkHelper is released under the MIT license. See [LICENSE]() for details.
+NetworkHelper is released under the MIT license. See [LICENSE](https://github.com/alexpaul/NetworkHelperSPM/blob/master/LICENSE) for details.
 
