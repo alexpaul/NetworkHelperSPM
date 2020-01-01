@@ -1,6 +1,6 @@
 # NetworkHelper
 
-This Swift package is a URLSession wrapper class that enables making GET, POST and related HTTP network requests. NetworkHelper's ```performDataTask``` method also takes an optional maximum number of days parameter. This will enable your app to restrict fetching network resources. 
+This Swift package is a URLSession wrapper class that enables making GET, POST, DELETE... and related HTTP network requests. NetworkHelper's ```performDataTask``` method also takes an optional maximum number of days parameter. This will enable your app to restrict fetching network resources. 
 
 
 [Version Releases](https://github.com/alexpaul/NetworkHelperSPM/releases)
