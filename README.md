@@ -51,6 +51,25 @@ struct APIClient {
 }
 ```
 
+## Error states 
+
+<pre>
+case badURL
+  A bad formatted URL was provided.
+case noResponse
+  There wasn't any response returned from the server.
+case networkClientError
+  A network client error e.g no internet connection. 
+case noData
+case decodingError
+  The Swift model isn't correctly formatted as per the JSON. 
+case encodingError
+case badStatusCode
+  A status code other that 200 - 299 was returned from the server. 
+case badMimeType
+  In the case of an image, a wrongly formatted mime type was found. 
+</pre>
+
 ## Caching 
 
 NetworkHelperSPM caches the network response for a day as the default. This value can be overridden to be 0 or a value that is sufficient to your needs. 
