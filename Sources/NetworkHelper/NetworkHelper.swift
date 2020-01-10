@@ -55,7 +55,7 @@ public class NetworkHelper {
       - completion: The Result will contain a Data object in the case of a successful request or an AppError in the case of a failure.
   */
   public func performDataTask(with request: URLRequest,
-                              maxCacheDays: Int = 1,
+                              maxCacheDays: Int = 0,
                               completion: @escaping (Result<Data, AppError>) -> ()) {
     // check if cache should be cleared base on x days since last modified date of saved cache
     // retrieve cache date
