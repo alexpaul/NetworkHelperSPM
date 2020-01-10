@@ -16,6 +16,7 @@ public class NetworkHelper {
   public static let shared = NetworkHelper()
   
   private var urlSession: URLSession
+  private var isCaching = true
   
   // we will make the default initializer private
   // required in order to be considered a singleton
@@ -43,6 +44,7 @@ public class NetworkHelper {
     // clear the urlCache if the maxCacheDays has expired
     if differenceInDates >= maxCacheDays {
       urlSession.configuration.urlCache?.removeAllCachedResponses()
+      isCaching = false
     }
   }
   
@@ -64,12 +66,15 @@ public class NetworkHelper {
       verifyCacheDate(for: lastModifiedTimeInterval, maxCacheDays: maxCacheDays)
     }
     
-    if let cachedResponse = urlSession.configuration.urlCache?.cachedResponse(for: request),
-      let _ = cachedResponse.response as? HTTPURLResponse {
-      let data = cachedResponse.data
-      completion(.success(data))
-      return
+    if isCaching {
+      if let cachedResponse = urlSession.configuration.urlCache?.cachedResponse(for: request),
+        let _ = cachedResponse.response as? HTTPURLResponse {
+        let data = cachedResponse.data
+        completion(.success(data))
+        return
+      }
     }
+    
     
     // two states on dataTask, resume() and suspended by default
     // suspended simply won't perform network request
