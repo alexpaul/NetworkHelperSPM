@@ -41,7 +41,7 @@ public class NetworkHelper {
     let differenceInDates = components.day ?? 0
     
     // clear the urlCache if the maxCacheDays has expired
-    if differenceInDates > maxCacheDays {
+    if differenceInDates >= maxCacheDays {
       urlSession.configuration.urlCache?.removeAllCachedResponses()
     }
   }
